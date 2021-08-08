@@ -1,0 +1,39 @@
+#Download the csv file at https://www.kaggle.com/gregorut/videogamesales
+
+import matplotlib.pyplot as plt
+import matplotlib.cbook as cbook
+import numpy as np
+import pandas as pd
+
+def addlabels(x,y):
+    for i in range(len(x)):
+        plt.text(i,y[i],y[i],ha = 'center')
+        
+data = pd.read_csv(r'vgsales.csv')
+
+anos = sorted(data['Year'].value_counts().index.tolist())
+print("")
+print(np.around(anos))
+print("")
+ano = int(input("Selecione um ano: "))
+
+year = data['Year'] == ano
+
+data2 = data[year]
+print("")
+
+data3 = []
+
+for i in data2['Platform'].value_counts():
+    data3.append(i)
+
+xvalues = data2['Platform'].value_counts().index.tolist()
+
+plt.bar(xvalues, data3)
+plt.xlabel("Plataformas")
+plt.ylabel("Quantidade de jogos")
+title = f"Quantidade de jogos lançados por plataforma no ano de {ano}"
+plt.title(title)
+plt.xticks(rotation=45)
+addlabels(xvalues, data3)
+plt.show()

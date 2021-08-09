@@ -1,0 +1,30 @@
+#Download the csv file at https://www.kaggle.com/gregorut/videogamesales
+
+import pandas as pd
+import numpy as np
+import plotly.offline
+import plotly.express as px
+
+data = pd.read_csv(r'vgsales.csv')
+
+data2 = data.sort_values(by=['Year'])
+
+anos = sorted(data['Year'].value_counts().index.tolist())
+print("")
+print(np.around(anos))
+print("")
+
+ano = int(input("Selecione um ano: "))
+
+year = data['Year'] == ano
+
+data2 = data[year]
+
+fig = px.treemap(data2,
+                 path=['Platform', 'Genre'],
+                 values='Year')
+
+fig.update_layout(title=f"Quantidade de jogos lançados por plataforma e gênero no ano de {ano}",
+                  width=1000, height=700,)
+
+plotly.offline.plot(fig, image='jpeg', image_filename='test')
